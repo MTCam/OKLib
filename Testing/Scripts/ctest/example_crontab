@@ -1,0 +1,4 @@
+MAILTO="mtcillinois@gmail.com"
+PATH=/home/mtcampbe/Software/Install/bin:/bin:/usr/bin:/usr/local/bin:/sbin:/usr/sbin:/opt/rocks/bin
+00 00 * * * /home/mtcampbe/AutomatedTesting/run_automated_tests /home/mtcampbe/AutomatedTesting/projects Nightly /home/mtcampbe/AutomatedTesting
+0 8 * * * /home/mtcampbe/AutomatedTesting/continuous_integration /home/mtcampbe/AutomatedTesting 54000 300

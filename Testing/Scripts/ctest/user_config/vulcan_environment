@@ -1,0 +1,5 @@
+use cmake
+setenv CC mpicc
+setenv CXX mpicxx
+setenv FC mpif90
+setenv PATH /g/g17/mtcampbe/Software/Install/vulcan/bin:${PATH}

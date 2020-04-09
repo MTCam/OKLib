@@ -1,0 +1,13 @@
+DEFAULT linux_workstation_parallel.list
+xpacc-cluster-hn xpacc_cluster.list
+golub cc_linux_parallel.list
+apollo linux_workstation_parallel.list
+vulcan lc_linux_parallel.list
+cab lc_linux_parallel.list
+quartz lc_linux_parallel.list
+titan titan_parallel.list
+knl stampede_parallel.list
+stampede stampede_parallel.list
+lassen lassen_linux_parallel.list
+ray    ray_linux_parallel.list
+

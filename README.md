@@ -1,2 +1,4 @@
 # OKLib
-Library of simple computational kernels used in PlasCom2
+This is a stand-alone library of simple computational kernels used in PlasCom2.
+
+
