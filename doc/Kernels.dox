@@ -15,10 +15,14 @@ Simple kernels are defined by the following:
   - Minimal logic (i.e. no drivers)
   - C and Fortran callable
   - no external, or implicit data dependencies
-  - no calls to external functions
+  - no calls to external (non-intrinsic) functions 
   - does not communicate
 
-@em PlasCom2 has the following @ref simple kernels.
+@em All of the kernels in the @ref simple kernel collection are simple kernels. The following kernels also meet the definition of simple kernels.
+
+ - operators::applyoperator
+ - operators::applyoperatorv
+ - operators::applysinglestencil
 
 @section MesoKernels Meso-kernels
 
@@ -26,10 +30,19 @@ Meso-kernels follow all of the rules for a kernel, with the following exceptions
 
   - Can call <b>other kernels</b>
 
+The following are examples of meso-kernels:
+
+  - euler::flux1d
+  - euler::scalarflux1d
+  - operators::applyoperatorblobs
+  - metricops::vhatcomponent
+  - metricops::ijkgradtoxyzdiv
+
 @section SuperKernels Super kernels
 
 Super kernels have kernel-like structure, but are allowed the following:
 
   - Controlling, more complex logic (i.e. driver-like)
+
 
 */
