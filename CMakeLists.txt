@@ -17,47 +17,26 @@ include(FortranCInterface)
 FortranCInterface_HEADER(${PROJECT_BINARY_DIR}/include/FC.h MACRO_NAMESPACE "FC_")
 FortranCInterface_VERIFY(CXX)
 INCLUDE_DIRECTORIES(${PROJECT_BINARY_DIR}/include)
-
+INCLUDE_DIRECTORIES(${PROJECT_SOURCE_DIR}/include)
 
 # Project-specific Options
 OPTION(BUILD_STATIC "Build static libraries")
-#OPTION(BUILD_PROVENANCE "Record repository provenance" ON)
-#OPTION(ENABLE_MPI "Build with MPI Support" ON)
-#OPTION(ENABLE_MPIP "Enables MPIP MPI-profiling library" OFF)
-#OPTION(ENABLE_HDF5 "Build with HDF5 Support" ON)
 OPTION(ENABLE_OPENMP "Build with OpenMP parallelism" OFF)
-#OPTION(AUTODETECT_MPI "Automatically detect MPI" ON)
 OPTION(BUILD_DOCUMENTATION "Create and install the HTML based API documentation (requires Doxygen)" ON)
 OPTION(STATIC_KERNELS "Build static library for Fortran computation kernels" OFF)
 OPTION(ENABLE_COVERAGE "Enable coverage testing with gcov (GCC only)" OFF)
 OPTION(ENABLE_KNL "Build for Intel Knights Landing architecture" OFF)
 OPTION(ENABLE_PAPI "Build with support for PAPI hardware performance counters." OFF)
 OPTION(ENABLE_EFENCE "Build with ElectricFence memory fault detection." OFF)
-#OPTION(ENABLE_OVERKIT "Use Overkit" ON)
-#OPTION(BUILD_OVERKIT "Build Overkit with PlasCom2 (if Overkit is enabled)" ON)
-#OPTION(ENABLE_INLINE_ASSEMBLY "Get and build Fortran Overkit if enabled." OFF)
-#OPTION(ENABLE_PETSC "Use PETSc" OFF)
-#OPTION(ENABLE_STELLA "Use stella" OFF)
 OPTION(BUILD_TESTS "Build tests" ON) 
 OPTION(SHOWTESTS "List individual tests at config time" OFF)
-#OPTION(INTEGRATED_TESTING "Enable longer integrated tests in testing suite" OFF)
 OPTION(DISABLE_WARNINGS "Disable all compiler warnings" OFF)
 OPTION(AGGRESSIVE_WARNINGS "Enable extra Fortran warnings (GCC only, sets DISABLE_WARNINGS to OFF)" OFF)
-#OPTION(ENABLE_MAXWELL "Enable Maxwell CEM solver"  OFF)
-#OPTION(ENABLE_CANTERA "Enable Cantera support for chemistry and equations of state" OFF)
-#OPTION(USE_AMPI "Let build system know you plan on building with AMPI (optional)" OFF)
 OPTION(USE_HYDRA "Enable Hydra offloading support" OFF)
 OPTION(ENABLE_HYDRA "Enable Hydra offloading support" OFF)
-#OPTION(FORCE_HDF5 "Proceed with configuration despite not finding paralell HDF5" OFF)
 OPTION(DISABLE_FAILING_TESTS "Disable running of tests that are known to fail." OFF)
 OPTION(ENABLE_THREAD_SANITIZER "Enable thread sanitizer thread debugger." OFF)
-#OPTION(ENABLE_CVODE "Enable CVODE support" ON)
-#OPTION(BUILD_CVODE "Force PlasCom2 to build its own CVODE" ON)
-#OPTION(ENABLE_PLATO "Enable PLATO support" OFF)
 OPTION(ENABLE_CUDA "Enable CUDA kernels and tests." OFF)
-#OPTION(ENABLE_EOS_TIMERS "Enable high resolution EOS timings" OFF)
-#OPTION(ENABLE_PROMETHEUS "Enable building new prometheus mechanisms" OFF)
-#OPTION(ENABLE_Y6_TESTS "Enable Y6 testing" ON)
 
 if (NOT CMAKE_BUILD_TYPE)
   message(STATUS "${Green}${PROJECT_NAME}: No build type selected, default to Release${ColorReset}")
@@ -86,51 +65,14 @@ ENDIF()
 IF(ENABLE_OPENMP)
   MESSAGE(STATUS "${Green}${PROJECT_NAME}: OpenMP         = ON${ColorReset}")
 ENDIF()
-#IF(NOT ENABLE_HDF5)
-#  MESSAGE(STATUS "${Green}${PROJECT_NAME}: HDF            = OFF${ColorReset}")
-#ENDIF()
-#IF(ENABLE_OVERKIT)
-#  MESSAGE(STATUS "${Green}${PROJECT_NAME}: Overkit        = ON${ColorReset}")
-#  IF(ENABLE_INLINE_ASSEMBLY)
-#    MESSAGE(STATUS "${Green}${PROJECT_NAME}: Fortran Overkit = ON${ColorReset}")
-#  ENDIF()
-#ENDIF()
-#IF(NOT ENABLE_CVODE)
-#  SET(BUILD_CVODE FALSE)
-#ENDIF()
-#IF(BUILD_CVODE)
-#  SET(ENABLE_CVODE TRUE)
-#  MESSAGE(STATUS "${Green}${PROJECT_NAME}: CVODE          = ON/BUILD${ColorReset}") 
-#ELSEIF(ENABLE_CVODE)
-#  MESSAGE(STATUS "${Green}${PROJECT_NAME}: CVODE          = ON/EXTERNAL${ColorReset}")
-#ENDIF()
-#IF(ENABLE_CANTERA)
-#  MESSAGE(STATUS "${Green}${PROJECT_NAME}: Cantera        = ON${ColorReset}")
-#ENDIF()
-#IF(ENABLE_PETSC)
-#  MESSAGE(STATUS "${Green}${PROJECT_NAME}: PETSC          = ON${ColorReset}")
-#ENDIF()
-#IF(ENABLE_STELLA)
-#  MESSAGE(STATUS "${Green}${PROJECT_NAME}: STELLA         = ON${ColorReset}")
-#ENDIF()
-#IF(USE_AMPI)
-#  MESSAGE(STATUS "${Green}${PROJECT_NAME}: AMPI           = ON${ColorReset}")
-#ENDIF()
+
 IF(BUILD_STATIC)
   MESSAGE(STATUS "${Green}${PROJECT_NAME}: Static Build   = ON${ColorReset}")
 ENDIF()
-#IF(NOT BUILD_PROVENANCE)
-#  MESSAGE(STATUS "${Green}${PROJECT_NAME}: Provenance     = OFF${ColorReset}")
-#ENDIF()
+
 IF(ENABLE_COVERAGE)
   MESSAGE(STATUS "${Green}${PROJECT_NAME}: Coverage Tests = ON${ColorReset}")
 ENDIF()
-#IF(ENABLE_Y6_TESTS)
-#  MESSAGE(STATUS "${Green}${PROJECT_NAME}: Y6 Testing = ON${ColorReset}")
-#ELSE()
-#  MESSAGE(STATUS "${Green}${PROJECT_NAME}: Y6 Testing = OFF${ColorReset}")
-#  ADD_DEFINITIONS(-DDISABLE_Y6)
-#ENDIF()
 
 #OPTION(ENABLE_AGGRESSIVE "Aggressive opt" OFF)
 
@@ -259,9 +201,6 @@ MESSAGE(STATUS "${Green}${PROJECT_NAME}: Fortran_COMPILER_NAME = ${Fortran_COMPI
 MESSAGE(STATUS "${Green}${PROJECT_NAME}: CMAKE_Fortran_COMPILER = ${Fortran_COMPILER_ID}${ColorReset}")
 MESSAGE(STATUS "${Green}${PROJECT_NAME}: CMAKE_CXX_COMPILER_VERSION = ${CMAKE_CXX_COMPILER_VERSION}${ColorReset}")
 MESSAGE(STATUS "${Green}${PROJECT_NAME}: CMAKE_Fortran_COMPILER_VERSION = ${CMAKE_Fortran_COMPILER_VERSION}${ColorReset}")
-#SET( buildinfo_in          ${CMAKE_SOURCE_DIR}/include/buildinfo.in )
-#SET( buildinfo             ${CMAKE_BINARY_DIR}/include/buildinfo.h  )
-#CONFIGURE_FILE( ${buildinfo_in} ${buildinfo} @ONLY )
 
 IF(ENABLE_OPENMP) 
   find_package(OpenMP)
@@ -384,303 +323,6 @@ ENDIF(BUILD_TESTING)
 #  add_definitions(-DNOGOOGLETEST)
 #ENDIF()
 
-#if(ENABLE_HDF5)
-#  if(BUILD_STATIC OR APPLE)
-#    set(HDF5_USE_STATIC_LIBRARIES TRUE)
-#  endif()
-
-#  SET(HDF5_PREFER_PARALLEL TRUE)
-#  #SET(HDF5_FIND_DEBUG TRUE)
-#  FIND_PACKAGE(HDF5 COMPONENTS C)
-#  IF(HDF5_FOUND)  
-#    MESSAGE(STATUS "${Green}${PROJECT_NAME}: HDF5_IS_PARALLEL       = ${HDF5_IS_PARALLEL}${ColorReset}")
-#    MESSAGE(STATUS "${Green}${PROJECT_NAME}: HDF5_C_COMPILER_EXECUTABLE       = ${HDF5_C_COMPILER_EXECUTABLE}${ColorReset}")
-#    MESSAGE(STATUS "${Green}${PROJECT_NAME}: HDF5_LIBRARY_DIRS      = ${HDF5_LIBRARY_DIRS}${ColorReset}")
-#    MESSAGE(STATUS "${Green}${PROJECT_NAME}: HDF5_INCLUDE_DIRS      = ${HDF5_INCLUDE_DIRS}${ColorReset}")
-#    MESSAGE(STATUS "${Green}${PROJECT_NAME}: HDF5_INCLUDE_DIR       = ${HDF5_INCLUDE_DIR}${ColorReset}")
-#    MESSAGE(STATUS "${Green}${PROJECT_NAME}: HDF5_DEFINITIONS       = ${HDF5_DEFINITIONS}${ColorReset}")
-#    MESSAGE(STATUS "${Green}${PROJECT_NAME}: HDF5_LIBRARIES         = ${HDF5_LIBRARIES}${ColorReset}")                              
-#    MESSAGE(STATUS "${Green}${PROJECT_NAME}: HDF5_C_LIBRARIES       = ${HDF5_C_LIBRARIES}${ColorReset}")                         
-#    #MESSAGE(STATUS "${Green}${PROJECT_NAME}: HDF5_CXX_LIBRARIES     = ${HDF5_CXX_LIBRARIES}${ColorReset}")                            
-#    MESSAGE(STATUS "${Green}${PROJECT_NAME}: HDF5_Fortran_LIBRARIES = ${HDF5_Fortran_LIBRARIES}${ColorReset}")   
-#    MESSAGE(STATUS "${Green}${PROJECT_NAME}: HDF5_C_COMPILER_EXECUTABLE = ${HDF5_C_COMPILER_EXECUTABLE}${ColorReset}")   
-#    #MESSAGE(STATUS "${Green}${PROJECT_NAME}: HDF5_CXX_COMPILER_EXECUTABLE = ${HDF5_CXX_COMPILER_EXECUTABLE}${ColorReset}")   
-#    MESSAGE(STATUS "${Green}${PROJECT_NAME}: HDF5_Fortran_COMPILER_EXECUTABLE = ${HDF5_Fortran_COMPILER_EXECUTABLE}${ColorReset}")
-#    IF(HDF5_IS_PARALLEL) 
-#      MESSAGE(STATUS "${Green}${PROJECT_NAME}: Enabling HDF5. ${ColorReset}")
-#      SET(USE_HDF TRUE)
-#    ELSE()
-#      MESSAGE(WARNING "${Yellow}${PROJECT_NAME}: Disabling HDF5 (not parallel). ${ColorReset}")
-#      SET(USE_HDF FALSE)
-#    ENDIF(HDF5_IS_PARALLEL)
-#  ENDIF() 
-#  IF(USE_HDF OR FORCE_HDF5)
-#    MESSAGE(STATUS "${Green}${PROJECT_NAME}: Setting up build for HDF5. ${ColorReset}")
-#    INCLUDE_DIRECTORIES(${HDF5_INCLUDE_DIRS})                                                    
-#    ADD_DEFINITIONS(-DENABLE_HDF5)
-#    IF(FORCE_HDF5)
-#      MESSAGE(WARNING "${Yellow}${PROJECT_NAME}: FindHDF5 failed, but forcing the build to continue regardless. ${ColorReset}")
-#      MESSAGE(WARNING "${Yellow}${PROJECT_NAME}: This can be the right thing to do on systems that wrap hdf5 with their own compilers${ColorReset}")
-#    ENDIF()
-#  ELSE()
-#    MESSAGE(FATAL_ERROR "${Red}${PROJECT_NAME}: Missing parallel HDF5. ${ColorReset}")
-#  ENDIF()   
-#ENDIF()
-
-#
-# Add suport for Cantera for combustion
-# 2 options:
-#   1. Put the path to Cantera in CMAKE_PREFIX_PATH
-#   2. Define CANTERA_DIR in the environment
-#
-#IF(ENABLE_CANTERA)
-#  MESSAGE(STATUS "${PROJECT_NAME}: Looking for Cantera")
-#  FIND_PACKAGE(Cantera)
-#  if(CANTERA_FOUND)
-#    MESSAGE(STATUS "${Green}${PROJECT_NAME}: Found Cantera Version ${CANTERA_VERSION}${ColorReset}")
-#    MESSAGE(STATUS "${Green}${PROJECT_NAME}: CANTERA_INCLUDE_DIR ${CANTERA_INCLUDE_DIRS${ColorReset}}")
-#    MESSAGE(STATUS "${Green}${PROJECT_NAME}: CANTERA_CORE_LIBRARY ${CANTERA_CORE_LIBRARY}${ColorReset}")
-#    MESSAGE(STATUS "${Green}${PROJECT_NAME}: CANTERA_EXTRA_LIBRARIES ${CANTERA_EXTRA_LIBRARIES}${ColorReset}")
-    #message(STATUS "${Green}${PROJECT_NAME}: CANTERA_Fortran_LIBRARY ${CANTERA_Fortran_LIBRARY}${ColorReset}")
-#
-#    MESSAGE(STATUS "${Green}${PROJECT_NAME}: Setting up build to use Cantera. ${ColorReset}")
-#    INCLUDE_DIRECTORIES(${CANTERA_INCLUDE_DIRS})
-#    SET(CANTERA_LIBRARIES ${plascomExtraLibs}
-#        #${CANTERA_Fortran_LIBRARY}
-#        ${CANTERA_CORE_LIBRARY} 
-#        ${CANTERA_EXTRA_LIBRARIES}
-#        )
-#    # need c++-11 for version >= 2.3
-#    #if(${CANTERA_VERSION} VERSION_GREATER_EQUAL 2.3)
-#    SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
-#    #endif()
-#    SET(USE_CANTERA "TRUE")
-#    ADD_DEFINITIONS(-DHAVE_CANTERA)
-#    # Hydra precludes the use of cantera
-#    # can still be used in non-offloaded code though
-#    # in this case, use HAVE_CANTERA (i.e. tests and initializations) inside the code
-#    IF(NOT ENABLE_HYDRA)
-#      ADD_DEFINITIONS(-DUSE_CANTERA)
-#    ENDIF()
-#  ELSE(CANTERA_FOUND)
-#    MESSAGE(WARNING "${Yellow}${PROJECT_NAME}: Cantera not found, disabling Cantera. ${ColorReset}")
-#    SET(USE_CANTERA "FALSE")
-#  ENDIF(CANTERA_FOUND)
-#
-#ENDIF(ENABLE_CANTERA)
-#
-#IF(ENABLE_PROMETHEUS)
-#  IF(USE_CANTERA)
-#    SET(USE_PROMETHEUS "TRUE")
-#    add_subdirectory(Prometheus)
-#    ADD_DEFINITIONS(-DHAVE_PROMETHEUS)
-#    ADD_DEFINITIONS(-DUSE_PROMETHEUS)
-#  ELSE()
-#    MESSAGE(FATAL_ERROR "${Red}${PROJECT_NAME}: Enabling Prometheus requires Cantera support. ${ColorReset}")
-#  ENDIF()
-#ENDIF()
-#
-#
-#IF(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/IX/")
-#  MESSAGE(STATUS "${Green}${PROJECT_NAME}: Building IX from source. ${ColorReset}")
-#  ADD_SUBDIRECTORY(IX)
-#  SET(IX_INCPATH ${CMAKE_SOURCE_DIR}/IX/include)
-#  SET(RUNTEST ${EXECUTABLE_OUTPUT_PATH}/runtest)
-#  SET(TESTRESULT ${EXECUTABLE_OUTPUT_PATH}/testresults)
-#  SET(IX_LIB IX)
-#ELSE()
-#  FIND_LIBRARY(IX_LIB IX)
-#  FIND_FILE(IX_HDR COMM.H)
-#  FIND_PROGRAM(RUNTEST runtest)
-#  FIND_PROGRAM(TESTRESULT testresults)
-#  GET_FILENAME_COMPONENT(IX_LIBPATH ${IX_LIB} PATH)
-#  GET_FILENAME_COMPONENT(IX_INCPATH ${IX_HDR} PATH)
-#  GET_FILENAME_COMPONENT(IX_EXEPATH ${RUNTEST} PATH)
-#  MESSAGE(STATUS "${Green}${PROJECT_NAME}: Using existing IX install (${IX_EXEPATH}). ${ColorReset}")
-#ENDIF()
-
-#IF(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/PCPP/")
-#  MESSAGE(STATUS "${Green}${PROJECT_NAME}: Building PCPP from source. ${ColorReset}")
-#  ADD_SUBDIRECTORY(PCPP)
-#  SET(PCPP_INCPATH ${CMAKE_SOURCE_DIR}/PCPP/include)
-#  SET(PCPP_LIB PCPP)
-#ELSE()
-#  FIND_LIBRARY(PCPP_LIB PCPP)
-#  FIND_FILE(PCPP_HDR PCPPTypes.H)
-#  GET_FILENAME_COMPONENT(PCPP_LIBPATH ${PCPP_LIB} PATH)
-#  GET_FILENAME_COMPONENT(PCPP_INCPATH ${PCPP_HDR} PATH)
-#  MESSAGE(STATUS "${Green}${PROJECT_NAME}: Using existing PCPP install (${PCPP_LIBPATH}). ${ColorReset}")
-#ENDIF()
-
-#IF(ENABLE_OVERKIT)
-#  IF(BUILD_OVERKIT)
-#    MESSAGE(STATUS "${Green}${PROJECT_NAME}: Configuring Overkit ... ${ColorReset}")
-#    SET(OVERKIT_BUILD_TYPE ${CMAKE_BUILD_TYPE})
-#    IF(OVERKIT_BUILD_TYPE STREQUAL "Debug")
-#      SET(OVERKIT_BUILD_TYPE "FastDebug")
-#    ENDIF()
-#    IF(BUILD_STATIC)
-#      SET(OVERKIT_SHARED OFF)
-#    ELSE()
-#      SET(OVERKIT_SHARED ON)
-#    ENDIF()
-#    SET(OVERKIT_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/Overkit")
-#    SET(OVERKIT_BINARY_DIR "${CMAKE_CURRENT_BINARY_DIR}/Overkit")
-#    INCLUDE(${OVERKIT_SOURCE_DIR}/OverkitSubproject.cmake)
-#    CONFIGURE_OVERKIT(
-#      SOURCE_DIR "${OVERKIT_SOURCE_DIR}"
-#      BINARY_DIR "${OVERKIT_BINARY_DIR}"
-#      INSTALL_BIN_DIR "${CMAKE_INSTALL_PREFIX}/bin"
-#      INSTALL_LIB_DIR "${CMAKE_INSTALL_PREFIX}/lib"
-#      INSTALL_INCLUDE_DIR "${CMAKE_INSTALL_PREFIX}/include"
-#      OPTIONS -DCMAKE_BUILD_TYPE=${OVERKIT_BUILD_TYPE} -DXPACC=ON -DBUILD_SHARED_LIBS=${OVERKIT_SHARED}
-#        -DCMAKE_C_COMPILER=${CMAKE_C_COMPILER} -DCMAKE_CXX_COMPILER=${CMAKE_CXX_COMPILER}
-#      QUIET
-#    )
-#    MESSAGE(STATUS "${Green}${PROJECT_NAME}: Configured Overkit ${Overkit_VERSION}${ColorReset}")
-#  ELSE()
-#    MESSAGE(STATUS "${Green}${PROJECT_NAME}: Looking for Overkit${ColorReset}")
-#    FIND_PACKAGE(Overkit QUIET CONFIG REQUIRED)
-#    MESSAGE(STATUS "${Green}${PROJECT_NAME}: Found Overkit ${Overkit_VERSION} in ${Overkit_DIR}${ColorReset}")
-#    IF(NOT Overkit_OPTION_XPACC)
-#      MESSAGE(FATAL_ERROR "${Red}Detected Overkit installation was not built with XPACC functionality enabled. ${ColorReset}")
-#    ENDIF()
-#  ENDIF()
-#  ADD_DEFINITIONS(-DUSE_OVERKIT)
-#  INCLUDE_DIRECTORIES("${Overkit_INCLUDES}")
-#ENDIF()
-
-# Fortran Overkit
-#MESSAGE(STATUS "${Green}${PROJECT_NAME}: Looking for Fortran Overkit${ColorReset}")
-#FIND_PACKAGE(OverkitFortran 2 QUIET CONFIG)
-#IF(OverkitFortran_FOUND)
-#  MESSAGE(STATUS "${Green}${PROJECT_NAME}: Found Fortran Overkit ${OverkitFortran_VERSION} in ${OverkitFortran_DIR}${ColorReset}")
-#  ADD_DEFINITIONS(-DUSE_OVERKIT_FORTRAN)
-#  SET(OverkitFortran_LIBRARIES overkit-fortran)
-#  SET(USE_OVERKIT_FORTRAN TRUE)
-#ELSE()
-#  MESSAGE(STATUS "${Green}${PROJECT_NAME}: Fortran Overkit not found${ColorReset}")
-#  SET(USE_OVERKIT_FORTRAN FALSE)
-#  IF(ENABLE_INLINE_ASSEMBLY) # Then try to get and build Fortran Overkit
-#    IF(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/overkit-fortran/")
-#      ADD_SUBDIRECTORY(overkit-fortran)
-#      ADD_DEFINITIONS(-DUSE_OVERKIT_FORTRAN)
-#      SET(Overkit_LIBRARIES overkit)
-#      SET(USE_OVERKIT_FORTRAN TRUE)
-#      INCLUDE_DIRECTORIES("${PROJECT_BINARY_DIR}/overkit-fortran/src/core/mod")
-#      INCLUDE_DIRECTORIES("${PROJECT_BINARY_DIR}/overkit-fortran/src/support/mod")
-#    ELSE()
-#      MESSAGE(STATUS "${Green}${PROJECT_NAME}: Attempting to download Fortran Overkit${ColorReset}")
-#      FIND_PACKAGE(Git QUIET)
-#      IF(GIT_FOUND)
-#        EXECUTE_PROCESS(COMMAND ${GIT_EXECUTABLE} clone https://github.com/majosm/overkit-fortran.git 
-#          WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
-#          RESULT_VARIABLE GOT_OVK_FORTRAN)
-#        IF(NOT GOT_OVK_FORTRAN)
-#          MESSAGE(FATAL_ERROR "${Red}${PROJECT_NAME}: Failed to get/clone Fortran Overkit (Reqd for inline assembly)${ColorReset}")
-#        ELSE()
-#          MESSAGE(STATUS "${Green}${PROJECT_NAME}: Download success for Fortran Overkit${ColorReset}")
-#          ADD_SUBDIRECTORY(overkit-fortran)
-#          ADD_DEFINITIONS(-DUSE_OVERKIT_FORTRAN)
-#          SET(OverkitFortran_LIBRARIES overkit-fortran)
-#          SET(USE_OVERKIT_FORTRAN TRUE)
-#          INCLUDE_DIRECTORIES("${PROJECT_BINARY_DIR}/overkit-fortran/src/core/mod")
-#          INCLUDE_DIRECTORIES("${PROJECT_BINARY_DIR}/overkit-fortran/src/support/mod")
-#        ENDIF()
-#      ELSE()
-#        MESSAGE(FATAL_ERROR "${Red}${PROJECT_NAME}: Git (NOT FOUND) is required for inline assembly with Fortran Overkit${ColorReset}")
-#      ENDIF()
-#    ENDIF()
-#  ENDIF()
-#ENDIF()
-#
-#IF(ENABLE_PETSC)
-#  FIND_PACKAGE(PETSc REQUIRED)
-#  IF(NOT ${PETSC_FOUND})
-#    MESSAGE(FATAL_ERROR "${Red}${PROJECT_NAME}: Unable to find PETSc. ${ColorReset}")
-#  ENDIF()
-#  ADD_DEFINITIONS(-DUSE_PETSC)
-#  INCLUDE_DIRECTORIES(${PETSC_INCLUDES})
-#ENDIF()
-#
-#IF(ENABLE_STELLA)
-#  IF(NOT ENABLE_PETSC)
-#    MESSAGE(FATAL_ERROR "${Red}${PROJECT_NAME}: Unable to configure with stella; needs PETSc. ${ColorReset}")
-#  ENDIF()
-#  MESSAGE(STATUS "${Green}${PROJECT_NAME}: Building stella from source. ${ColorReset}")
-#  add_subdirectory(stella)
-#  SET(STELLA_LIB stella)
-#  SET(STELLA_INCPATH ${CMAKE_SOURCE_DIR}/stella/src)
-#  ADD_DEFINITIONS(-DUSE_STELLA)
-#  INCLUDE_DIRECTORIES("${STELLA_INCPATH}")
-#  IF(ENABLE_CEDAR)
-#    ADD_DEFINITIONS(-DUSE_CEDAR)
-#  ENDIF()
-#ENDIF()
-#
-#IF(ENABLE_CVODE OR BUILD_CVODE)
-#  IF(NOT BUILD_CVODE)
-#    FIND_LIBRARY(CVODE_LIB sundials_cvode)
-#    IF(NOT CVODE_LIB)
-#      FIND_LIBRARY(CVODE_LIB cvode)
-#    ENDIF(NOT CVODE_LIB)
-#    IF(CVODE_LIB)
-#      #  FIND_LIBRARY(NVEC_PAR_LIB sundials_nvecparallel)
-#      #  FIND_LIBRARY(NVEC_SER_LIB sundials_nvecserial)
-#      #  FIND_LIBRARY(SUNLINSOL_LIB sundials_sunlinsoldense)
-#      #  FIND_LIBRARY(SUNMATRIX_LIB sundials_sunmatrixdense)
-#      MESSAGE(STATUS "${Green}${PROJECT_NAME}: Found CVODE library: ${CVODE_LIB}${ColorReset}")
-#      #  MESSAGE(STATUS "${Green}${PROJECT_NAME}: Found SERIAL NVECTOR library: ${NVEC_SER_LIB}${ColorReset}")
-#      #  MESSAGE(STATUS "${Green}${PROJECT_NAME}: Found PARALLEL NVECTOR library: ${NVEC_PAR_LIB}${ColorReset}")
-#      #  MESSAGE(STATUS "${Green}${PROJECT_NAME}: Found SUNLINSOL library: ${SUNLINSOL_LIB}${ColorReset}")
-#      #  MESSAGE(STATUS "${Green}${PROJECT_NAME}: Found SUNMATRIX library: ${SUNMATRIX_LIB}${ColorReset}")
-#      GET_FILENAME_COMPONENT(CVODE_LIBPATH ${CVODE_LIB} PATH)
-#      ADD_DEFINITIONS(-DHAVE_CVODE)
-#      MESSAGE(STATUS "${Green}${PROJECT_NAME}: CVODE library path: ${CVODE_LIBPATH}${ColorReset}")
-#      #  FIND_FILE(CVODE_HEADER cvode/cvode_direct.h)
-#      FIND_FILE(CVODE_HEADER cvdense.h)
-#      IF(NOT CVODE_HEADER)
-#        MESSAGE(ERROR "${Red}${PROJECT_NAME}: CVODE header files not found. ${ColorReset}")
-#      ENDIF(NOT CVODE_HEADER)
-#      GET_FILENAME_COMPONENT(CVODE_INCPATH ${CVODE_HEADER} PATH)
-#      #  MESSAGE(STATUS "${Green}${PROJECT_NAME}: CVODE include path: ${CVODE_INCPATH}/../ ${ColorReset}")
-#      #  INCLUDE_DIRECTORIES(${CVODE_INCPATH}/../)
-#      MESSAGE(STATUS "${Green}${PROJECT_NAME}: CVODE include path: ${CVODE_INCPATH}/ ${ColorReset}")
-#      INCLUDE_DIRECTORIES(${CVODE_INCPATH}/)
-#    ENDIF()
-#  ENDIF()
-#  IF(NOT CVODE_LIB)
-#    MESSAGE(STATUS "${Green}${PROJECT_NAME}: Building internal CVODE library. ${ColorReset}")
-#    ADD_SUBDIRECTORY(cvode)
-#    ADD_DEFINITIONS(-DHAVE_CVODE)
-#    INCLUDE_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR}/cvode/include)
-#    SET(CVODE_LIB PC2CVODE)
-#  ENDIF(NOT CVODE_LIB)
-#ENDIF()
-#
-#IF(ENABLE_PLATO)
-#  MESSAGE(STATUS "Looking for Plato")
-#  FIND_LIBRARY(PLATO_LIB plato)
-#  IF(PLATO_LIB)
-#    MESSAGE(STATUS "${Green}${PROJECT_NAME}: Found Plato library: ${PLATO_LIB}${ColorReset}")
-#    GET_FILENAME_COMPONENT(PLATO_LIBPATH ${PLATO_LIB} PATH)
-#    MESSAGE(STATUS "${Green}Plato library path: ${PLATO_LIBPATH}${ColorReset}")
-#    FIND_FILE(PLATO_HEADER plato_library_interface_Cpp.h)
-#    IF(NOT PLATO_HEADER)
-#      MESSAGE(ERROR "${Red}${PROJECT_NAME}: PLATO header files not found.")
-#    ENDIF(NOT PLATO_HEADER)
-#    GET_FILENAME_COMPONENT(PLATO_INCPATH ${PLATO_HEADER} PATH)
-#    MESSAGE(STATUS "${Green}${PROJECT_NAME}: Plato include path: ${PLATO_INCPATH}${ColorReset}")
-#    INCLUDE_DIRECTORIES(${PLATO_INCPATH})
-#    SET(USE_PLATO "TRUE")
-#    ADD_DEFINITIONS(-DHAVE_PLATO)
-#  ELSE(PLATO_LIB)
-#    MESSAGE(WARNING "${Yellow}${PROJECT_NAME}: Plato not found. ${ColorReset}")
-#    SET(USE_PLATO "FALSE")
-#  ENDIF(PLATO_LIB)
-#ENDIF(ENABLE_PLATO)
-#
-#
 if(ENABLE_PAPI)
   FIND_PROGRAM(PAPI_AVAIL papi_avail)
   IF(NOT PAPI_AVAIL) 
@@ -703,36 +345,6 @@ endif()
 # Enable utilities
 #add_subdirectory(utils)
 #
-#SET(PlasCom2_LibSources src/Simulation.C src/PlasCom2.C src/Stencil.C src/BoundaryCondition.C src/Info.C
-#  src/NavierStokesBC.C src/Grid.C src/PC2Initialize.C src/PC2Util.C src/Halo.C
-#  src/PC2Configuration.C src/PC2ReadDomains.C src/PC2WriteDomains.C src/State.C
-#  src/EulerUtil.C src/ViscidUtil.C src/RunPlasCom2.C src/PlasComCM.C src/WENO.C
-#  src/EOS.C src/NavierStokesDictionary.C src/Chemistry.C src/TransportModel.C
-#  src/ChemistrySourceRHS.C src/CudaUtils.C src/NavierStokesRHS.C src/NavierStokesDomain.C
-#  src/PAPIX.C src/Timers.C)
-#
-#
-# Enable pre-built prometheus mechanisms
-#set(PlasCom2_LibSources ${PlasCom2_LibSources} 
-#  Prometheus/mechanisms/src/ETHYLENE.cpp Prometheus/mechanisms/src/ETHYLENE_EXTENDED.cpp
-#  Prometheus/mechanisms/src/ETHYLENE_INERT.cpp Prometheus/mechanisms/src/ETHYLENE_INERT_EXT9.cpp
-#  Prometheus/mechanisms/src/N2O2_reacN7.cpp Prometheus/mechanisms/src/ETHYLENE_PLASMA.cpp
-#  Prometheus/mechanisms/src/SANDIEGO.cpp Prometheus/mechanisms/src/SANDIEGO_PLASMA.cpp
-#  Prometheus/mechanisms/src/PrometheusInterface.cpp)
-
-#if(ENABLE_HDF5)
-#  set(PlasCom2_LibSources ${PlasCom2_LibSources} src/PC2IO.C)
-#endif()
-#
-#IF(USE_OVERKIT_FORTRAN)
-#  LIST(APPEND PlasCom2_LibSources src/OverkitFortranInterface.F90)
-#ENDIF()
-
-#SET(PlasCom2_KernelSources kernels/Limits.f90 kernels/barebones.f90 kernels/Operators.f90 kernels/MetricOps.f90
-  #kernels/Roe.f90 kernels/RungeKutta.f90 kernels/Grid.f90 kernels/Euler.f90 kernels/EOS.f90
-  #kernels/Viscid.f90 kernels/SATUtil.f90 kernels/NavierStokesRHSWENO.f90 
-  #kernels/NavierStokesUtil.f90)
-
 if(ENABLE_HYDRA)
   set(kernel_prefix hydra)
 else()
@@ -740,9 +352,10 @@ else()
 endif()
 
 # this is an order that satisfies build order dependence
-SET(PlasCom2_KernelSources kernels/Limits.f90 kernels/barebones.f90 kernels/NavierStokesUtil.f90
-kernels/EOS.f90 ${kernel_prefix}/Operators.f90 kernels/Grid.f90 kernels/Euler.f90 kernels/Viscid.f90
-${kernel_prefix}/MetricOps.f90 ${kernel_prefix}/Roe.f90 kernels/SATUtil.f90 ${kernel_prefix}/NavierStokesRHSWENO.f90)
+SET(PlasCom2_KernelSources kernels/Limits.f90 kernels/barebones.f90 kernels/Simple.f90 kernels/Special.f90
+                           kernels/NavierStokesUtil.f90 kernels/EOS.f90 ${kernel_prefix}/Operators.f90 
+                           kernels/Grid.f90 kernels/Euler.f90 kernels/Viscid.f90 ${kernel_prefix}/MetricOps.f90 
+                           ${kernel_prefix}/Roe.f90 kernels/SATUtil.f90 ${kernel_prefix}/NavierStokesRHSWENO.f90)
 
 #if(ENABLE_HYDRA)
 #  # Add Tangram kernels
@@ -872,15 +485,6 @@ MESSAGE(STATUS "${Green}${PROJECT_NAME}: Kernel Sources: ${PlasCom2_KernelSource
 #  ${OverkitFortran_LIBRARIES} ${PETSC_LIBRARIES} ${STELLA_LIB} ${CVODE_LIB} ${NVEC_SER_LIB} ${NVEC_PAR_LIB} ${SUNLINSOL_LIB} ${SUNMATRIX_LIB} ${PLATO_LIB} ${CUDA_LIBRARIES})
 #
 #
-#IF(USE_HDF)
-#  TARGET_LINK_LIBRARIES(PlasCom2 ${HDF5_LIBRARIES})
-#ENDIF()
-
-#IF(ENABLE_CANTERA)
-#  TARGET_LINK_LIBRARIES(PlasCom2 ${CANTERA_LIBRARIES})
-#ENDIF()
-
-#INSTALL(TARGETS PlasCom2 LIBRARY DESTINATION lib ARCHIVE DESTINATION lib)
 
 IF(STATIC_KERNELS) 
   if(ENABLE_HYDRA)
@@ -903,45 +507,6 @@ if(ENABLE_HYDRA)
   INSTALL(TARGETS Hydra LIBRARY DESTINATION lib ARCHIVE DESTINATION lib)
 endif()
 
-#IF(USE_AMPI) 
-#  # Disable renaming std::exit for AMPI
-#  set_source_files_properties(src/PC2Util.C PROPERTIES COMPILE_FLAGS "${COMPILE_FLAGS} -DAMPI_RENAME_EXIT=0")
-#  IF(ENV{AMPI_HOME})
-#    SET(AMPI_HOME $ENV{AMPI_HOME})
-#  ELSE()
-#    GET_FILENAME_COMPONENT(AMPI_BIN ${CMAKE_CXX_COMPILER} PATH)
-#    SET(AMPI_HOME "${AMPI_BIN}/..")
-#  ENDIF()
-#  #FILE(COPY ${AMPI_HOME}/include/mpif.h DESTINATION ${CMAKE_BINARY_DIR}/include)
-#  IF(NOT BUILD_STATIC)
-#	  #set(CMAKE_CXX_STANDARD_LIBRARIES "${CMAKE_CXX_STANDARD_LIBRARIES} -charm-shared")
-#	  target_link_libraries(PlasCom2 INTERFACE -charm-shared)
-#	  target_link_libraries(IX INTERFACE -charm-shared)
-#  endif()
-#ENDIF()
-#
-#IF(ENABLE_MPIP)
-#  SET(MPI_LINK_FLAGS "${MPI_LINK_FLAGS} -lmpiP")
-#ENDIF()
-
-#set_source_files_properties(src/PC2Main.C
-#    PROPERTIES COMPILE_FLAGS "${COMPILE_FLAGS} ${MPI_CXX_COMPILE_FLAGS} ${MPI_COMPILE_FLAGS}")
-#ADD_EXECUTABLE(plascom2x src/PC2Main.C)
-#TARGET_LINK_LIBRARIES(plascom2x PlasCom2 Kernels ${PCPP_LIB} ${IX_LIB}
-#  ${MPI_CXX_LIBRARIES} ${MPI_LIBRARIES} ${LIBEFENCE})
-#SET_TARGET_PROPERTIES(plascom2x PROPERTIES LINK_FLAGS "${LINK_FLAGS} ${MPI_CXX_LINK_FLAGS} ${MPI_LINK_FLAGS}")
-#
-#INSTALL(TARGETS plascom2x RUNTIME DESTINATION bin)
-#
-#ADD_EXECUTABLE(pc2fileinfo src/pc2fileinfo.C)
-#TARGET_LINK_LIBRARIES(pc2fileinfo PlasCom2 Kernels ${PCPP_LIB} ${IX_LIB} ${MPI_LIBRARIES} ${LIBEFENCE})
-#SET_TARGET_PROPERTIES(pc2fileinfo PROPERTIES LINK_FLAGS "${LINK_FLAGS} ${MPI_LINK_FLAGS}")
-#INSTALL(TARGETS pc2fileinfo RUNTIME DESTINATION bin)
-#
-#ADD_EXECUTABLE(pc2compare src/pc2compare.C)
-#TARGET_LINK_LIBRARIES(pc2compare PlasCom2 Kernels ${PCPP_LIB} ${IX_LIB} ${MPI_LIBRARIES} ${LIBEFENCE})
-#SET_TARGET_PROPERTIES(pc2compare PROPERTIES LINK_FLAGS "${LINK_FLAGS} ${MPI_LINK_FLAGS}")
-#INSTALL(TARGETS pc2compare RUNTIME DESTINATION bin)
 
 #if(ENABLE_HYDRA)
 #  # -lxlcufdevice is required for allocate() support in offloaded Fortran regions
@@ -961,9 +526,9 @@ endif()
 
 # ========= USE IN EXISTING PROJECT ==============
 
-IF(BUILD_TESTS) 
-  ADD_SUBDIRECTORY(Testing)
-ENDIF()
+#IF(BUILD_TESTS) 
+#  ADD_SUBDIRECTORY(Testing)
+#ENDIF()
 
 
 # Print configuration

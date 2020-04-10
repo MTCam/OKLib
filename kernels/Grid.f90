@@ -56,6 +56,8 @@ CONTAINS
        gridJacobianDeterminants)
     
     USE OPERATORS 
+    USE SIMPLE
+    USE SPECIAL
 
     IMPLICIT NONE
 

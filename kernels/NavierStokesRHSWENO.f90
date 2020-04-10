@@ -4,6 +4,8 @@ MODULE NavierStokesRHSWENO
   USE Roe
   USE MetricOps
   USE EOS
+  USE Simple
+  USE Special
 
   IMPLICIT NONE
 

@@ -1,1 +1,0 @@
-setenv PROJECT_CONFIGURATION_OPTIONS "${PROJECT_CONFIGURATION_OPTIONS} --enable-overset-tool --enable-examples --enable-tests --with-hdf5=${HDF5_INSTALL}/bin/h5pcc"
